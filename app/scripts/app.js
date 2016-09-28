@@ -11,6 +11,11 @@
              templateUrl: '/templates/landing.html'
          
          })
+         .state('collection', {
+        url: '/collection',
+        controller: 'CollectionController',
+        templateUrl: '/templates/collection.html'
+         })
          .state('album', {
              url: '/album',
              templateUrl: '/templates/album.html'
