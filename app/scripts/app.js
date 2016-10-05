@@ -18,7 +18,8 @@
         templateUrl: '/templates/collection.html'
          })
          .state('album', {
-             url: '/album',            
+             url: '/album',   
+             controller: 'AlbumCtrl as album',
              templateUrl: '/templates/album.html'
          });
      }
