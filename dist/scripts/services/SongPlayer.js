@@ -2,6 +2,7 @@
      function SongPlayer(Fixtures) {
           var SongPlayer = {};
           var currentAlbum = Fixtures.getAlbum();
+          SongPlayer.currentArtist = currentAlbum.artist;
          
           var currentBuzzObject = null;
          /**
@@ -16,8 +17,7 @@
 
 var setSong = function(song) {
     if (currentBuzzObject) {
-        currentBuzzObject.stop();
-        SongPlayer.currentSong.playing = null;
+        stopSong(SongPlayer.currentSong);
     }
  
     currentBuzzObject = new buzz.sound(song.audioUrl, {
@@ -37,6 +37,11 @@ var getSongIndex = function(song) {
         currentBuzzObject.play();
         song.playing = true;
 };
+
+ var stopSong = function(song) {
+            currentBuzzObject.stop();
+            song.playing = null;
+        }
          /**
         * @function playSong
         * @desc Plays the loaded currentBuzzObject
@@ -64,6 +69,18 @@ SongPlayer.pause = function(song) {
            song.playing = false;
          
 };
+SongPlayer.next = function() {
+            var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+            currentSongIndex++;
+            
+            if (currentSongIndex >= currentAlbum.songs.length) {
+                currentSongIndex = 0;
+            }else {
+                var song = currentAlbum.songs[currentSongIndex];
+                setSong(song);
+                playSong(song);
+            }
+        };
          /**
         * @function SongPlayer.previous
         * @desc Goes to the previous song
@@ -72,8 +89,7 @@ SongPlayer.previous = function() {
      var currentSongIndex = getSongIndex(SongPlayer.currentSong);
      currentSongIndex--;
      if (currentSongIndex < 0) {
-         currentBuzzObject.stop();
-         SongPlayer.currentSong.playing = null;
+        stopSong(SongPlayer.currentSong);
      } else {
          var song = currentAlbum.songs[currentSongIndex];
          setSong(song);
