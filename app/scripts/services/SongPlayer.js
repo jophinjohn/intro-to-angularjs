@@ -24,6 +24,13 @@ var setSong = function(song) {
         formats: ['mp3'],
         preload: true
     });
+ currentBuzzObject.setVolume(SongPlayer.volume);
+    currentBuzzObject.bind('volumechange', function() {
+                 $rootScope.$apply(function() {
+                     SongPlayer.volume = currentBuzObject.getVolume();
+                 });
+             });
+             
      currentBuzzObject.bind('timeupdate', function() {
          $rootScope.$apply(function() {
              SongPlayer.currentTime = currentBuzzObject.getTime();
@@ -53,7 +60,15 @@ var getSongIndex = function(song) {
         * @param {Object} song
         */
           
-SongPlayer.currentSong = null;   
+SongPlayer.currentSong = null; 
+
+SongPlayer.volume = 10;
+         
+SongPlayer.setVolume = function(volume) {
+             if (currentBuzzObject) {
+                currentBuzzObject.setVolume(volume)
+             };
+         };
          /**
  * @desc Current playback time (in seconds) of currently playing song
  * @type {Number}
